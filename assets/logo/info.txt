@@ -1,0 +1,18 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: WorkSans-Regular
+font link: https://fonts.google.com/specimen/Work+Sans
+font author: Wei Huang
+font author site: 
+
+
+icon designer: Lluisa Iborra
+icon designer link: /marialuisa.iborra
+        
+
+fontColor: {"gradient-0":"#F6B614","gradient-1":"#1F1E1D"}
+bgColor: {"hex":"#000000"}
+iconColor: {"gradient-0":"#F6B614","gradient-1":"#1F1E1D"}
+
+      

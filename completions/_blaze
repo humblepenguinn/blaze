@@ -1,0 +1,146 @@
+#compdef blaze
+
+autoload -U is-at-least
+
+_blaze() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_blaze_commands" \
+"*::: :->blaze" \
+&& ret=0
+    case $state in
+    (blaze)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:blaze-command-$line[1]:"
+        case $line[1] in
+            (install)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+'*::package_names:' \
+&& ret=0
+;;
+(init)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(version)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+'::verbose:(true false)' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+":: :_blaze__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:blaze-help-command-$line[1]:"
+        case $line[1] in
+            (install)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(init)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(version)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_blaze_commands] )) ||
+_blaze_commands() {
+    local commands; commands=(
+'install:install a new NodeJS package' \
+'init:initialize a new NodeJS project' \
+'version:Print the version' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'blaze commands' commands "$@"
+}
+(( $+functions[_blaze__help_commands] )) ||
+_blaze__help_commands() {
+    local commands; commands=(
+'install:install a new NodeJS package' \
+'init:initialize a new NodeJS project' \
+'version:Print the version' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'blaze help commands' commands "$@"
+}
+(( $+functions[_blaze__help__help_commands] )) ||
+_blaze__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze help help commands' commands "$@"
+}
+(( $+functions[_blaze__help__init_commands] )) ||
+_blaze__help__init_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze help init commands' commands "$@"
+}
+(( $+functions[_blaze__init_commands] )) ||
+_blaze__init_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze init commands' commands "$@"
+}
+(( $+functions[_blaze__help__install_commands] )) ||
+_blaze__help__install_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze help install commands' commands "$@"
+}
+(( $+functions[_blaze__install_commands] )) ||
+_blaze__install_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze install commands' commands "$@"
+}
+(( $+functions[_blaze__help__version_commands] )) ||
+_blaze__help__version_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze help version commands' commands "$@"
+}
+(( $+functions[_blaze__version_commands] )) ||
+_blaze__version_commands() {
+    local commands; commands=()
+    _describe -t commands 'blaze version commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_blaze" ]; then
+    _blaze "$@"
+else
+    compdef _blaze blaze
+fi
